@@ -3782,6 +3782,64 @@ def t2y(t):
     '''
     raise (NotImplementedError)
 
+# mixed-mode s-parameter
+
+def s2mm(s, k_oo =1, k_oe = 1):
+    '''
+    Convert single-ended scattering parameters to mixed-mode. 
+    
+    Parameters
+    ------------
+    s : complex array-like
+        scattering parameters
+                                            
+
+    Returns
+    ---------
+    smm : complex array-like
+        mixed-mode scattering parameters
+    
+    Notes
+    ---------
+    See  [1]_ for modern reference given un-equal even/odd mode impendances.
+    For completeness, reference [2]_ provides (probably) the first 
+    matrix formula and [3]_ is the original paper.
+    
+    References
+    -------------
+    .. [1] A. Huynh, P. Hakansson, and S. Gong, "Mixed-mode S-parameter conversion for networks with coupled differential signals," in Microwave Conference, 2007. European, 2007, pp. 238-241.
+    
+    .. [2] D. E. Bockelman and W. R. Eisenstadt, "Combined differential and common-mode analysis of power splitters and combiners," IEEE Transactions on Microwave Theory and Techniques, vol. 43, no. 11, pp. 2627-2632, Nov. 1995.
+
+    .. [3] D. E. Bockelman and W. R. Eisenstadt, "Combined differential and common-mode scattering parameters: theory and simulation," IEEE Transactions on Microwave Theory and Techniques, vol. 43, no. 7, pp. 1530-1539, Jul. 1995.
+
+    
+    '''
+    raise NotImplementedError
+    shape = s.shape
+    nfreqs, nports, nports = shape
+    
+    smm = npy.zeros(shape, dtype='complex')
+       
+    
+    if nports == 4:
+        
+        
+        I = npy.mat(npy.identity(nports))
+        
+    
+        for f in xrange(nfreqs):
+            smm[f] = (M1[f]*s[f]+M2[f])*(M1[f]+M2[f]*s[f])**-1
+        
+            #M1.dot(s[fidx]*
+            #sqrtz0 = npy.mat(npy.sqrt(npy.diagflat(z0[fidx])))
+            #z[fidx] = sqrtz0 * (I-s[fidx])**-1 * (I+s[fidx]) * sqrtz0
+    
+    else: 
+        pass
+        
+    
+    return smm
 
 ## renormalize 
 def renormalize_s(s, z_old, z_new):
